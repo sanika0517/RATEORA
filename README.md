@@ -34,14 +34,33 @@ The frontend is a React single-page application. It communicates with a REST API
 
 ## Screenshots
 
-Screenshots can be added in the placeholders below. Suggested paths are under `docs/screenshots/`.
+The screenshots below show the actual RATEORA application across authentication, administration, store discovery, and account management.
 
-| View | Screenshot |
-| --- | --- |
-| Login and demo account cards | _Screenshot placeholder — `docs/screenshots/login.png`_ |
-| Admin dashboard | _Screenshot placeholder — `docs/screenshots/admin-dashboard.png`_ |
-| Store discovery and rating | _Screenshot placeholder — `docs/screenshots/store-discovery.png`_ |
-| Store Owner dashboard | _Screenshot placeholder — `docs/screenshots/owner-dashboard.png`_ |
+### Authentication: Login and Registration
+
+![RATEORA login page with demo account cards](docs/screenshots/login.png)
+
+![RATEORA account registration page](docs/screenshots/register.png)
+
+### Admin Workspace: Dashboard, User Management, Store Management
+
+![Admin dashboard with platform statistics](docs/screenshots/admin-dashboard.png)
+
+![Admin user management table](docs/screenshots/admin-users.png)
+
+![Admin store management table](docs/screenshots/admin-stores.png)
+
+### Normal User Workspace: Store Discovery
+
+![Normal User store discovery with ratings](docs/screenshots/store-discovery.png)
+
+### Store Owner Workspace: Dashboard
+
+![Store Owner dashboard with rating performance](docs/screenshots/owner-dashboard.png)
+
+### Account Management: Profile
+
+![Account profile and password management page](docs/screenshots/profile.png)
 
 ## Features
 
