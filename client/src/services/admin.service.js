@@ -16,6 +16,20 @@ export function createAdminUser(payload) {
   return api.post('/admin/users', payload).then((res) => res.data)
 }
 
+export function updateAdminUser(userId, payload) {
+  return api.patch(`/admin/users/${userId}`, payload).then((res) => res.data)
+}
+
+export function resetAdminUserPassword(userId, password) {
+  return api
+    .post(`/admin/users/${userId}/reset-password`, { password })
+    .then((res) => res.data)
+}
+
+export function deleteAdminUser(userId) {
+  return api.delete(`/admin/users/${userId}`).then((res) => res.data)
+}
+
 export function getAdminStores(params) {
   return api.get('/admin/stores', { params }).then((res) => res.data)
 }

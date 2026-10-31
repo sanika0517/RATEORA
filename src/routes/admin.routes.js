@@ -5,6 +5,9 @@ import {
   createUser,
   getAllUsers,
   getUserDetails,
+  updateUser,
+  resetUserPassword,
+  deleteUser,
   createStore,
   getAllStores,
 } from "../controllers/admin.controller.js";
@@ -19,6 +22,8 @@ import { validate } from "../middleware/validate.middleware.js";
 import {
   createUserSchema,
   createStoreSchema,
+  updateUserSchema,
+  resetUserPasswordSchema,
 } from "../validators/admin.validator.js";
 
 const router = Router();
@@ -33,6 +38,13 @@ router.get("/dashboard", getDashboardStats);
 router.post("/users", validate(createUserSchema), createUser);
 router.get("/users", getAllUsers);
 router.get("/users/:userId", getUserDetails);
+router.patch("/users/:userId", validate(updateUserSchema), updateUser);
+router.post(
+  "/users/:userId/reset-password",
+  validate(resetUserPasswordSchema),
+  resetUserPassword
+);
+router.delete("/users/:userId", deleteUser);
 
 // Store management
 router.post("/stores", validate(createStoreSchema), createStore);

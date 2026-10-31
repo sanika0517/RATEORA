@@ -34,6 +34,17 @@ export const createUserSchema = z.object({
   role: z.enum(["ADMIN", "NORMAL_USER", "STORE_OWNER"]),
 });
 
+export const updateUserSchema = z.object({
+  name: nameSchema,
+  email: emailSchema,
+  address: addressSchema,
+  role: z.enum(["ADMIN", "NORMAL_USER", "STORE_OWNER"]),
+});
+
+export const resetUserPasswordSchema = z.object({
+  password: passwordSchema,
+});
+
 // STORE CREATION VALIDATION
 export const createStoreSchema = z.object({
   name: nameSchema,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Badge from '../../components/common/Badge'
 import Button from '../../components/common/Button'
 import EmptyState from '../../components/common/EmptyState'
@@ -7,12 +7,16 @@ import ErrorState from '../../components/common/ErrorState'
 import LoadingSpinner from '../../components/common/LoadingSpinner'
 import PageHeader from '../../components/common/PageHeader'
 import RatingStars from '../../components/ratings/RatingStars'
+import AdminUserActions from '../../components/admin/AdminUserActions'
+import { useAuth } from '../../hooks/useAuth'
 import { getAdminUser } from '../../services/admin.service'
 import { ROLES } from '../../utils/constants'
 import { formatDate, formatRating, getApiError } from '../../utils/formatters'
 
 export default function UserDetailsPage() {
   const { userId } = useParams()
+  const { user: currentUser } = useAuth()
+  const navigate = useNavigate()
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -46,9 +50,17 @@ export default function UserDetailsPage() {
         title={user.name}
         description="Complete account record from the admin directory."
         actions={
-          <Button as={Link} to="/admin/users" variant="secondary">
-            Back to users
-          </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <AdminUserActions
+              user={user}
+              currentUserId={currentUser?.id}
+              onUpdated={load}
+              onDeleted={() => navigate('/admin/users', { replace: true })}
+            />
+            <Button as={Link} to="/admin/users" variant="secondary">
+              Back to users
+            </Button>
+          </div>
         }
       />
 

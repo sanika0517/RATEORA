@@ -72,6 +72,25 @@ export const createUserSchema = registerSchema.extend({
   }),
 })
 
+export const updateUserSchema = z.object({
+  name: nameSchema,
+  email: emailSchema,
+  address: addressSchema,
+  role: z.enum([ROLES.ADMIN, ROLES.NORMAL_USER, ROLES.STORE_OWNER], {
+    message: 'Select a role',
+  }),
+})
+
+export const resetUserPasswordFormSchema = z
+  .object({
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, 'Confirm the new password'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
+
 export const createStoreSchema = z.object({
   name: nameSchema,
   email: emailSchema,

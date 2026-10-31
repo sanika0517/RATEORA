@@ -10,13 +10,16 @@ import PageHeader from '../../components/common/PageHeader'
 import Pagination from '../../components/common/Pagination'
 import SearchBar from '../../components/common/SearchBar'
 import DataTable from '../../components/tables/DataTable'
+import AdminUserActions from '../../components/admin/AdminUserActions'
 import { useDirectoryQuery } from '../../hooks/useDirectoryQuery'
+import { useAuth } from '../../hooks/useAuth'
 import { getAdminUsers } from '../../services/admin.service'
 import { ROLE_FILTER_OPTIONS } from '../../utils/constants'
 import { formatDate, getApiError } from '../../utils/formatters'
 
 export default function UsersPage() {
   const navigate = useNavigate()
+  const { user: currentUser } = useAuth()
   const {
     search,
     setSearch,
@@ -114,6 +117,21 @@ export default function UsersPage() {
                 header: 'Joined',
                 sortKey: 'createdAt',
                 render: (row) => formatDate(row.createdAt),
+              },
+              {
+                key: 'actions',
+                header: 'Actions',
+                render: (row) => (
+                  <AdminUserActions
+                    user={row}
+                    currentUserId={currentUser?.id}
+                    onUpdated={load}
+                    onDeleted={() => {
+                      if (users.length === 1 && page > 1) setPage(page - 1)
+                      else load()
+                    }}
+                  />
+                ),
               },
             ]}
             rows={users}

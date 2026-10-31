@@ -1,6 +1,11 @@
 
 import prisma from "../config/prisma.js";
 import bcrypt from "bcrypt";
+import {
+  deleteUserAccount,
+  resetUserPasswordForAdmin,
+  updateUserAccount,
+} from "../services/admin-user-management.service.js";
 
 // 1. ADMIN DASHBOARD STATISTICS
 export const getDashboardStats = async (req, res, next) => {
@@ -256,6 +261,56 @@ export const getUserDetails = async (req, res, next) => {
     next(error);
   }
 };
+
+// 5. UPDATE USER DETAILS AND ROLE
+export const updateUser = async (req, res, next) => {
+  try {
+    const user = await updateUserAccount(prisma, req.params.userId, req.body);
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      data: user,
+    });
+  } catch (error) {
+    if (error.status) {
+      return res.status(error.status).json({ success: false, message: error.message });
+    }
+    next(error);
+  }
+};
+
+// 6. RESET A USER PASSWORD AND REVOKE EXISTING SESSIONS
+export const resetUserPassword = async (req, res, next) => {
+  try {
+    await resetUserPasswordForAdmin(prisma, req.params.userId, req.body.password);
+    return res.status(200).json({
+      success: true,
+      message: "Password reset successfully. Existing sessions have been invalidated.",
+    });
+  } catch (error) {
+    if (error.status) {
+      return res.status(error.status).json({ success: false, message: error.message });
+    }
+    next(error);
+  }
+};
+
+// 7. DELETE USER; RATINGS ARE CASCADE-DELETED BY THE DATABASE
+export const deleteUser = async (req, res, next) => {
+  try {
+    await deleteUserAccount(prisma, req.params.userId, req.user.id);
+    return res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    if (error.status) {
+      return res.status(error.status).json({ success: false, message: error.message });
+    }
+    next(error);
+  }
+};
+
 // 5. CREATE STORE
 export const createStore = async (req, res, next) => {
   try {
