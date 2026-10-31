@@ -1,0 +1,73 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  NORMAL_USER
+  STORE_OWNER
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String   @db.VarChar(60)
+  email        String   @unique @db.VarChar(255)
+  passwordHash String
+  address      String   @db.VarChar(400)
+  role         Role     @default(NORMAL_USER)
+
+  // Token version belongs to User
+  tokenVersion Int @default(0)
+
+  ownedStore Store? @relation("StoreOwner")
+  ratings    Rating[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@index([role])
+  @@index([createdAt])
+}
+
+model Store {
+  id      String @id @default(uuid()) @db.Uuid
+  name    String @db.VarChar(60)
+  email   String @db.VarChar(255)
+  address String @db.VarChar(400)
+
+  ownerId String @unique @db.Uuid
+  owner   User   @relation("StoreOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+
+  ratings Rating[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@index([address])
+}
+
+model Rating {
+  id      String @id @default(uuid()) @db.Uuid
+  rating  Int
+
+  userId  String @db.Uuid
+  storeId String @db.Uuid
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, storeId])
+  @@index([storeId])
+  @@index([userId])
+  @@index([rating])
+}
