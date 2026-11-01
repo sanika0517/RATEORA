@@ -4,6 +4,13 @@
 
 RATEORA is a full-stack store rating and management platform with role-specific workspaces for administrators, normal users, and store owners. It combines store discovery, customer ratings, account management, and rating analytics in a responsive dark SaaS interface.
 
+Live Demo
+
+**Live Application:** https://rateora.onrender.com
+
+Explore RATEORA's store discovery, rating system, and role-based dashboards.
+
+
 ## Contents
 
 - [Overview](#overview)
